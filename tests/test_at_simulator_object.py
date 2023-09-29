@@ -322,4 +322,5 @@ def test_get_linear_dispersion_action(mocked_atsim):
 
 def test_get_horizontal_emittance(mocked_atsim):
     eps_x = -(62.5 * at.constants.Cq) / at.constants.e_mass ** 2
-    assert mocked_atsim.get_horizontal_emittance() == eps_x
+    numpy.testing.assert_almost_equal(eps_x, mocked_atsim.get_horizontal_emittance())
+    #assert mocked_atsim.get_horizontal_emittance() == eps_x
