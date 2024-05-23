@@ -72,7 +72,7 @@ def main():
     ]
     # Need 0 & 1 to both be set or just 2 set, but none of the others can be set wrong.
     if (
-        not (set(epics_env_vars[:2]) - os.environ.keys())
+        bool(set(epics_env_vars[:2]) - os.environ.keys())
         or epics_env_vars[2] not in os.environ.keys()
     ):
         warn(
