@@ -145,7 +145,9 @@ class ATSimulator(object):
             field (str): The field to be changed.
             value (float): The value to be set.
         """
-        self._queue.Signal((func, field, value))
+        # N.B. This takes 1.5x as long as not using cothread.Callback but it shouldn't
+        # be an issue as it's still ~7 orders of magnitude faster than the calculation.
+        cothread.Callback(self._queue.Signal, (func, field, value))
 
     def _gather_one_sample(self):
         """If the queue is empty Wait() yields until an item is added. When the
