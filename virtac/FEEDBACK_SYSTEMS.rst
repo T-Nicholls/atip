@@ -15,9 +15,9 @@ makes several adjustments and additions to core ATIP functionality.
 Mirrored Records:
 -----------------
 
-The ability to create mirror records is provided. Mirror records take value(s)
-from one or more records and set their value dependent on their input. A
-variety of mirror types are available:
+The ability to create mirror records is provided. A mirror record can take
+value(s) from one or more records as inputs and set its output dependent on
+their values. A variety of mirror types are available:
 
 1. ``basic`` - Sets the value of the output record equal to the value of a
    single input PV.
