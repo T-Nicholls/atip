@@ -1,7 +1,11 @@
 {
     "_meta": {
         "hash": {
+<<<<<<< Updated upstream
             "sha256": "101b6b3808158ef135f36b177974bdf7d94272d0687968d4b1cb32f0b89f1645"
+=======
+            "sha256": "126890cdbef97afc54ae976cf384775a3261debdf7b2f12cf333cfa3c6ecc27b"
+>>>>>>> Stashed changes
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -237,6 +241,7 @@
             ],
             "version": "==0.7.12"
         },
+<<<<<<< Updated upstream
         "appdirs": {
             "hashes": [
                 "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41",
@@ -244,6 +249,8 @@
             ],
             "version": "==1.4.4"
         },
+=======
+>>>>>>> Stashed changes
         "attrs": {
             "hashes": [
                 "sha256:149e90d6d8ac20db7a955ad60cf0e6881a3f20d37096140088356da6c716b0b1",
@@ -286,7 +293,11 @@
                 "sha256:353f466495adaeb40b6b5f592f9f91cb22372351c84caeb068132442a4518ef3",
                 "sha256:410e932b050f5eed773c4cda94de75971c89cdb3155a72a0831139a79e5ecb5b"
             ],
+<<<<<<< Updated upstream
             "version": "==8.0.3"
+=======
+            "version": "==8.1.3"
+>>>>>>> Stashed changes
         },
         "coverage": {
             "extras": [
@@ -344,6 +355,17 @@
             ],
             "version": "==0.17.1"
         },
+<<<<<<< Updated upstream
+=======
+        "exceptiongroup": {
+            "hashes": [
+                "sha256:327cbda3da756e2de031a3107b81ab7b3770a602c4d16ca618298c526f4bec1e",
+                "sha256:bcb67d800a4497e1b404c2dd44fca47d3b7a5e5433dbab67f96c1a685cdfdf23"
+            ],
+            "markers": "python_version < '3.11'",
+            "version": "==1.1.0"
+        },
+>>>>>>> Stashed changes
         "flake8": {
             "hashes": [
                 "sha256:07528381786f2a6237b061f6e96610a4167b226cb926e2aa2b6b1d78057c576b",
@@ -491,6 +513,7 @@
             ],
             "version": "==1.0.0"
         },
+<<<<<<< Updated upstream
         "py": {
             "hashes": [
                 "sha256:21b81bda15b66ef5e1a777a21c4dcd9c20ad3efd0b3f817e7a809035269e1bd3",
@@ -498,6 +521,8 @@
             ],
             "version": "==1.10.0"
         },
+=======
+>>>>>>> Stashed changes
         "pycodestyle": {
             "hashes": [
                 "sha256:514f76d918fcc0b55c6680472f0a37970994e07bbb80725808c17089be302068",
@@ -519,6 +544,7 @@
             ],
             "version": "==2.10.0"
         },
+<<<<<<< Updated upstream
         "pyparsing": {
             "hashes": [
                 "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1",
@@ -526,6 +552,8 @@
             ],
             "version": "==2.4.7"
         },
+=======
+>>>>>>> Stashed changes
         "pytest": {
             "hashes": [
                 "sha256:131b36680866a76e6781d13f101efb86cf674ebb9762eb70d3082b6f29889e89",
@@ -623,14 +651,22 @@
                 "sha256:6c1246513ecd5ecd4528a0906f910e8f0f9c6b8ec72030dc9fd154dc1a6efd24",
                 "sha256:b8aa58f8cf793ffd8782d3d8cb19e66ef36f7aba4353eec859e74678b01b07a7"
             ],
+<<<<<<< Updated upstream
             "version": "==2.26.0"
+=======
+            "version": "==2.28.1"
+>>>>>>> Stashed changes
         },
         "snowballstemmer": {
             "hashes": [
                 "sha256:b51b447bea85f9968c13b650126a888aabd4cb4463fca868ec596826325dedc2",
                 "sha256:e997baa4f2e9139951b6f4c631bad912dfd3c792467e2f03d7239464af90e914"
             ],
+<<<<<<< Updated upstream
             "version": "==2.1.0"
+=======
+            "version": "==2.2.0"
+>>>>>>> Stashed changes
         },
         "sphinx": {
             "hashes": [
