@@ -24,26 +24,27 @@ class LatticeData:
 def calculate_optics(
     at_lattice: at.Lattice, refpts: ArrayLike, disable_emittance: bool = False
 ) -> LatticeData:
-    """Perform physics calculations on lattice.
+    """Perform the physics calculations on the lattice.
+
+    .. Note:: We choose to use the more physically accurate find_orbit6 and
+       linopt6 functions over their faster but less representative 4d or 2d
+       equivalents (find_orbit4, linopt2, & linopt4), see the docstrings for
+       those functions in PyAT for more information.
 
     Args:
-        at_lattice: AT lattice definition
-        refpts: points at which to calculate physics data
-        disable_emittance: whether to calculate emittances
+        at_lattice (at.lattice_object.Lattice): AT lattice definition.
+        refpts (numpy.array): A boolean array specifying the points at which
+                               to calculate physics data.
+        disable_emittance (bool): whether to calculate emittance.
 
     Returns:
-        calculated lattice data
+        LatticeData: The calculated lattice data.
     """
-    logging.debug("Starting optics calculations.")
+    logging.debug("Starting physics calculations.")
 
     orbit0, _ = at_lattice.find_orbit6()
     logging.debug("Completed orbit calculation.")
 
-    # Here one could use the faster linopt2 or linopt4 functions,
-    # but linopt6 appears to be more correct.
-    # If you try linopt2 or linopt4 be aware that the calculated
-    # data from this call may not be physically accurate.
-    # See the docstrings for those functions in pyat.
     _, beamdata, twiss = at_lattice.linopt6(
         refpts=refpts, get_chrom=True, orbit=orbit0, keep_lattice=True
     )
@@ -80,8 +81,8 @@ class ATSimulator(object):
                                                  physics data is calculated.
            _rp (numpy.array): A boolean array to be used as refpts for the
                                physics calculations.
-            _disable_emittance (bool): Whether or not to perform the beam envelope
-                                based emittance calculations.
+            _disable_emittance (bool): Whether or not to perform the beam
+                                        envelope based emittance calculations.
            _lattice_data (LatticeData): calculated physics data
                               function linopt (see at.lattice.linear.py).
            _queue (cothread.EventQueue): A queue of changes to be applied to
@@ -108,8 +109,8 @@ class ATSimulator(object):
                                                      lattice object.
             callback (callable): Optional, if passed it is called on completion
                                   of each round of physics calculations.
-            disable_emittance (bool): Whether or not to perform the beam envelope based
-                               emittance calculations.
+            disable_emittance (bool): Whether or not to perform the beam
+                                       envelope based emittance calculations.
 
         **Methods:**
         """
@@ -145,8 +146,6 @@ class ATSimulator(object):
             field (str): The field to be changed.
             value (float): The value to be set.
         """
-        # N.B. This takes 1.5x as long as not using cothread.Callback but it shouldn't
-        # be an issue as it's still ~7 orders of magnitude faster than the calculation.
         cothread.Callback(self._queue.Signal, (func, field, value))
 
     def _gather_one_sample(self):
@@ -189,34 +188,39 @@ class ATSimulator(object):
                 except Exception as e:
                     warn(at.AtWarning(e))
                 # Signal up to date before the callback is executed in case
-                # the callback requires data that requires the calculation
-                # to be up to date.
+                # the callback checks the flag.
                 self.up_to_date.Signal()
                 if callback is not None:
                     logging.debug("Executing callback function.")
                     callback()
                     logging.debug("Callback completed.")
+            # We might need to be careful that this doesn't cause us to become
+            # threadlocked in a different thread but it is required for
+            # cothread.CallbackResult to play nicely with Bluesky.
+            cothread.Yield()
 
     def toggle_calculations(self):
         """Pause or unpause the physics calculations by setting or clearing the
         _paused flag. N.B. this does not pause the emptying of the queue.
         """
         if self._paused:
-            self._paused.Reset()
+            cothread.CallbackResult(self._paused.Reset)
         else:
-            self._paused.Signal()
+            cothread.CallbackResult(self._paused.Signal)
 
     def pause_calculations(self):
-        self._paused.Signal()
+        if not self._paused:
+            cothread.CallbackResult(self._paused.Signal)
 
     def unpause_calculations(self):
-        self._paused.Reset()
+        if self._paused:
+            cothread.CallbackResult(self._paused.Reset)
 
     def trigger_calculation(self):
-        self.up_to_date.Reset()
+        cothread.CallbackResult(self.up_to_date.Reset)
         self.unpause_calculations()
-        # Add a null item to the queue. A recalculation will happen
-        # when it has been applied.
+        # Add a null item to the queue, a recalculation will happen once it
+        # has been applied.
         self.queue_set(lambda *x: None, None, None)
 
     def wait_for_calculations(self, timeout=10):
@@ -231,7 +235,7 @@ class ATSimulator(object):
             concluded, else True.
         """
         try:
-            self.up_to_date.Wait(timeout)
+            cothread.CallbackResult(self.up_to_date.Wait, timeout)
             return True
         except cothread.Timedout:
             return False
@@ -449,9 +453,9 @@ class ATSimulator(object):
     def get_emittance(self, field=None):
         """Return the emittance for the AT lattice for the specified plane.
 
-        .. Note:: The emittance at the entrance of the AT lattice as it is
-           constant throughout the lattice, and so which element's emittance
-           is returned is arbitrary.
+        .. Note:: The emittance at the entrance of the AT lattice is returned
+           as it is constant throughout the lattice, and so which element's
+           emittance is returned is arbitrary.
 
         Args:
             field (str): The desired field (x or y) of emittance, if None
