@@ -27,4 +27,6 @@ jobs:
           pipenv install --dev --deploy --python $(which python) && pipenv graph
 
       - name: Run tests and check formatting
-        run: pipenv run tests
+        run: |
+          pip install "importlib_metadata<5.0;python_version<'3.8'"
+          pipenv run tests

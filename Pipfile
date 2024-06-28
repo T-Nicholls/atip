@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
+importlib_metadata = {version="<5.0", markers="python_version < '3.8'"}
 pytest = "*"
 pytest-cov = "*"
 pytest-black = "*"
