@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "126890cdbef97afc54ae976cf384775a3261debdf7b2f12cf333cfa3c6ecc27b"
+            "sha256": "0d40a83ec0868bc35189cd546f8ee2d236cd4bd765016c9b7078e592918432de"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -700,6 +700,9 @@
             ],
             "markers": "python_version < '3.11'",
             "version": "==2.0.1"
+        },
+        "typed_ast": {
+            "markers": "python_version < '3.8'"
         },
         "typing-extensions": {
             "hashes": [
