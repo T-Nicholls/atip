@@ -10,12 +10,11 @@ pytest-black = "*"
 pytest-flake8 = "*"
 testfixtures = "*"
 mock = "*"
-flake8 = "<4.0"
+flake8 = ">=5.0"
 sphinx = "*"
 sphinx_rtd_theme = "*"
 black = "==22.3.0"
 typed_ast = {version="*", markers="python_version < '3.8'"}
-importlib_metadata = {version="<5.0.0", markers="python_version < '3.8'"}
 
 [packages]
 # All production requirements from setup.cfg.
