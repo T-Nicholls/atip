@@ -1,3 +1,5 @@
 jupyter notebook --no-browser --port=9090
 
-ssh -NfL localhost:9090:localhost:9090 pc0130
+ssh -NfL localhost:9091:localhost:9091 pc0130
+
+ps -aux | grep "ssh -NfL"
